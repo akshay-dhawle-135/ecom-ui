@@ -1,0 +1,22 @@
+name: deploy - Deploy documentation portal static site to AWS
+
+on:
+  push:
+    branches: 
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    name: Deploy dev documentation site
+    concurrency:
+      group: ${{github.repository}}-documentation-dev 
+      cancel-in-progress: true
+    uses: ./.github/workflows/reusable-deploy-s3-site.yml
+    secrets: inherit
+    permissions:
+      id-token: write
+      contents: write
+    with:
+      ENVIRONMENT: ecom-shared-technology-usea1-env
+      STAGE: dev
