@@ -1,10 +1,26 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './index.css';
+import Layout from './Layout';
+import DataPage from './DataPage';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const routes = ['posts', 'comments', 'albums', 'photos', 'todos', 'users'];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout routes={routes} />}>
+          {routes.map((route) => (
+            <Route
+              key={route}
+              path={route}
+              element={<DataPage type={route} />}
+            />
+          ))}
+        </Route>
+      </Routes>
+    </Router>
+  </React.StrictMode>
+);
